@@ -1,10 +1,10 @@
-const readline = require('readline');
-const { quicksort } = require('./quicksort');
+const readline = require("readline");
+const { quicksort } = require("./quicksort");
 
 // Crear interfaz de lectura
 const rdln = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
 // Función para verificar la validez de las coordenadas
@@ -12,8 +12,8 @@ const ValidCoord = (lat, lon) => {
   if (
     /[^0-9.\-]/.test(lat) ||
     /[^0-9.\-]/.test(lon) ||
-    lat.includes(',') ||
-    lon.includes(',')
+    lat.includes(",") ||
+    lon.includes(",")
   ) {
     return false;
   }
@@ -36,8 +36,8 @@ const askCoordinates = (point, callback) => {
   let lat, lon;
 
   const Lat = () => {
-    rdln.question(`Ingrese la latitud para el punto ${point}: `, inputLat => {
-      if (ValidCoord(inputLat, '0')) {
+    rdln.question(`Ingrese la latitud para el punto ${point}: `, (inputLat) => {
+      if (ValidCoord(inputLat, "0")) {
         lat = inputLat;
         Lon();
       } else {
@@ -50,17 +50,20 @@ const askCoordinates = (point, callback) => {
   };
 
   const Lon = () => {
-    rdln.question(`Ingrese la longitud para el punto ${point}: `, inputLon => {
-      if (ValidCoord(lat, inputLon)) {
-        lon = inputLon;
-        callback(parseFloat(lat), parseFloat(lon));
-      } else {
-        console.log(
-          `La longitud (${inputLon}) no es válida. Por favor, inténtelo de nuevo.`
-        );
-        Lon();
+    rdln.question(
+      `Ingrese la longitud para el punto ${point}: `,
+      (inputLon) => {
+        if (ValidCoord(lat, inputLon)) {
+          lon = inputLon;
+          callback(parseFloat(lat), parseFloat(lon));
+        } else {
+          console.log(
+            `La longitud (${inputLon}) no es válida. Por favor, inténtelo de nuevo.`
+          );
+          Lon();
+        }
       }
-    });
+    );
   };
   Lat();
 };
@@ -68,10 +71,8 @@ const askCoordinates = (point, callback) => {
 // Función para ordenar y mostrar las coordenadas
 const sortAndPrintCoordinates = (coordinates, key) => {
   const sortedAsc = quicksort([...coordinates], key);
-  const sortedDesc = [...sortedAsc].reverse();
 
   console.log(`Coordenadas ordenadas por ${key} (ascendente):`, sortedAsc);
-  console.log(`Coordenadas ordenadas por ${key} (descendente):`, sortedDesc);
 };
 
 // Función principal para obtener y validar las coordenadas
@@ -85,9 +86,8 @@ const getValidCoordinates = () => {
         getCoord();
       });
     } else {
-      console.log('Coordenadas ingresadas:', coordinates);
-      sortAndPrintCoordinates(coordinates, 'lat');
-      sortAndPrintCoordinates(coordinates, 'lon');
+      console.log("Coordenadas ingresadas:", coordinates);
+      sortAndPrintCoordinates(coordinates, "lat");
       rdln.close();
     }
   };
@@ -97,4 +97,3 @@ const getValidCoordinates = () => {
 
 // Iniciar la solicitud de coordenadas
 getValidCoordinates();
-
